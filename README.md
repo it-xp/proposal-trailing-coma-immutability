@@ -6,46 +6,80 @@ Currently this have very unusable sense, which reflect only code style conventio
 
 In the next example showed immutable behavior:
 ```javascript
+/* General concept: */
+
 let mutableObject = {
-  field1: 'value-1',
-  field2: 'value-2', // this coma mark object as mutable
+  property1: 'value-1',
+  property2: 'value-2', // this coma mark object as mutable
 };
 
 // this is works normal
-mutableObject.field1 = 'other-value'; 
-mutableObject.field3 = 'value-3'; 
+mutableObject.property1 = 'other-value'; 
+mutableObject.property3 = 'value-3'; 
 
 let immutableObject = {
-  field1: 'value-1',
-  field2: 'value-2'  // no trailing coma mark object as immutable
+  property1: 'value-1',
+  property2: 'value-2'  // no trailing coma mark object as immutable
 };
 
 // throw "Can not mutate immutable literal" error
-immutableObject.field1 = 'other-value';
-immutableObject.field3 = 'value-3';
+immutableObject.property1 = 'other-value';
+immutableObject.property3 = 'value-3';
 
 // common immutable objects usage example
 let newMutableState = Object.assign(immutableObject, {
-  field1: 'other-value',
-  field3: 'value-3', // trailing coma in assigned value mark result as mutable
+  property1: 'other-value',
+  property3: 'value-3', // trailing coma in assigned value mark result as mutable
 });
 
 // works
-newMutableState.field1 = 'new value';
+newMutableState.property1 = 'new value';
 
 let newImutableState = Object.assign(immutableObject, {
-  field1: 'other-value',
-  field3: 'value-3'  // no trailing coma in assigned value mark result as immutable
+  property1: 'other-value',
+  property3: 'value-3'  // no trailing coma in assigned value mark result as immutable
 });
 
 // throw
-newImmutableState.field1 = 'new value';
+newImmutableState.property1 = 'new value';
 
-// switching object mutability
+/* Switching object mutability */
 
 // from immutable to mutable
 mutabilitySwitchableObject = Object.assign(mutabilitySwitchableObject, {,});
 
 // from mutable to immutable
 mutabilitySwitchableObject = Object.assign(mutabilitySwitchableObject, {});
+
+/* Combined or partial mutabiliti */
+
+let combinedMutabilityObject = {
+  mutableField: {
+    immutableField: {
+      property: 'value' // immutable
+    }, // mutable
+  },
+  immutableField: {
+    mutableField: {
+      property: 'value', // mutable
+    } // immutable
+  } // immutable
+}
+
+// throw
+combinedMutabilityObject.newProperty = 'new value';
+combinedMutabilityObject.mutableField = 'new value';
+combinedMutabilityObject.mutableField.immutableField.property = 'new value';
+combinedMutabilityObject.immutableField.property = 'new value';
+
+let somePointer = combinedMutabilityObject.immutableField;
+somePointer.property = 'new value';
+
+// works
+combinedMutabilityObject.mutableField.newProperty = 'new value';
+combinedMutabilityObject.immutableField.mutableField.property = 'new value';
+
+let otherPointer = combinedMutabilityObject.immutableField.mutableField;
+otherPointer.property = 'new value';
+
 ```
