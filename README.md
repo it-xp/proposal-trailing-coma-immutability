@@ -51,7 +51,7 @@ mutabilitySwitchableObject = Object.assign(mutabilitySwitchableObject, {,});
 // from mutable to immutable
 mutabilitySwitchableObject = Object.assign(mutabilitySwitchableObject, {});
 
-/* Combined or partial mutabiliti */
+/* Combined or partial mutability */
 
 let combinedMutabilityObject = {
   mutableField: {
